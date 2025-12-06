@@ -31,3 +31,12 @@ export interface PostsPage {
 export interface PostPage {
   post: PostWithComments;
 }
+
+export interface CreatePostInput {
+  title: string;
+  body: string;
+}
+
+export interface CreatePostData {
+  createPost: Post;
+}

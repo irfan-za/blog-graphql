@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Post } from "../types";
+import { User } from "lucide-react";
 
 export default function PostCard({ post }: { post: Post }) {
   return (
@@ -14,11 +15,7 @@ export default function PostCard({ post }: { post: Post }) {
         </h2>
         <p className="text-gray-600 mb-4 line-clamp-3">{post.body}</p>
         <div className="flex items-center text-sm text-gray-500">
-          <img
-            src="/user-icon.svg"
-            alt="User Icon"
-            className="w-5 h-5 mr-2 p-0.5 bg-gray-200 rounded-full"
-          />
+          <User className="w-5 h-5 mr-2 p-0.5 bg-gray-200 rounded-full" />
           <span className="font-medium">{post.user.name}</span>
         </div>
       </div>

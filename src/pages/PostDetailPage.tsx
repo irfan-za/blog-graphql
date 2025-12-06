@@ -6,6 +6,7 @@ import PostSkeleton from "../components/PostSkeleton";
 import ErrorCard from "../components/ErrorCard";
 import PostNotFound from "../components/PostNotFound";
 import CommentCard from "../components/CommentCard";
+import { ArrowLeft } from "lucide-react";
 
 export default function PostDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -14,20 +15,23 @@ export default function PostDetailPage() {
     variables: { id },
   });
   const post = data?.post;
+  const isPostFound = post && post.id !== null;
 
   return (
     <div className="container max-w-4xl mx-auto px-4 py-8">
-      <div className="pb-8">
+      <div className="pb-8 flex justify-between">
         <Link
           to="/"
           className="px-4 py-2 inline-flex items-center text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-200"
         >
-          <img
-            src="/arrow-left.svg"
-            alt="Arrow Left Icon"
-            className="w-5 h-5 mr-2"
-          />
+          <ArrowLeft className="w-4 h-4 mr-2" />
           Back to posts
+        </Link>
+        <Link
+          to="/create"
+          className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+        >
+          Create New Post
         </Link>
       </div>
       {loading && (
@@ -41,7 +45,7 @@ export default function PostDetailPage() {
 
       {!loading &&
         !error &&
-        (post ? (
+        (isPostFound ? (
           <div className="space-y-6">
             <div className="bg-white shadow-md rounded-lg p-4 md:p-6">
               <h1 className="text-xl lg:text-2xl font-bold text-gray-800 mb-2">
