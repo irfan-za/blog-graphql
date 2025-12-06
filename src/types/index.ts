@@ -2,7 +2,6 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  username: string;
 }
 export interface Post {
   id: string;
@@ -10,7 +9,17 @@ export interface Post {
   body: string;
   user: User;
 }
-
+export interface Comment {
+  id: string;
+  name: string;
+  email: string;
+  body: string;
+}
+export interface PostWithComments extends Post {
+  comments: {
+    data: Comment[];
+  };
+}
 export interface PostsPage {
   posts: {
     data: Post[];
@@ -18,4 +27,7 @@ export interface PostsPage {
       totalCount: number;
     };
   };
+}
+export interface PostPage {
+  post: PostWithComments;
 }
