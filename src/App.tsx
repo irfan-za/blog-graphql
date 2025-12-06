@@ -3,6 +3,7 @@ import PostsListPage from "./pages/PostsListPage";
 import PostDetailPage from "./pages/PostDetailPage";
 import CreatePostPage from "./pages/CreatePostPage";
 import "./App.css";
+import { Toaster } from "sonner";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/create" element={<CreatePostPage />} />
         </Routes>
       </div>
+      <Toaster richColors />
     </Router>
   );
 }

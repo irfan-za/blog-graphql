@@ -4,7 +4,8 @@ import { CreatePostData, CreatePostInput } from "../types";
 import { useMutation } from "@apollo/client/react";
 import { CREATE_POST } from "../graphql/mutation";
 import { GET_POSTS } from "../graphql/queries";
-import { CircleAlert, CircleCheck } from "lucide-react";
+import { CircleAlert } from "lucide-react";
+import { toast } from "sonner";
 
 export default function CreatePostPage() {
   const navigate = useNavigate();
@@ -12,7 +13,6 @@ export default function CreatePostPage() {
     title: "",
     body: "",
   });
-  const [successMessage, setSuccessMessage] = useState<string>("");
 
   const [createPost, { loading, error }] = useMutation<
     CreatePostData,
@@ -45,30 +45,22 @@ export default function CreatePostPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSuccessMessage("");
+    const result = await createPost({
+      variables: {
+        input: formData,
+      },
+    });
 
-    try {
-      const result = await createPost({
-        variables: {
-          input: formData,
-        },
+    if (result.data) {
+      toast.success("Post created successfully.");
+      setFormData({
+        title: "",
+        body: "",
       });
 
-      if (result.data) {
-        setSuccessMessage(
-          `Post "${result.data.createPost.title}" created successfully! (ID: ${result.data.createPost.id})`
-        );
-        setFormData({
-          title: "",
-          body: "",
-        });
-
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
-      }
-    } catch (err) {
-      console.error("Error creating post:", err);
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     }
   };
   return (
@@ -77,15 +69,6 @@ export default function CreatePostPage() {
         <h1 className="text-3xl font-bold text-gray-800 mb-6">
           Create New Post
         </h1>
-
-        {successMessage && (
-          <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-            <div className="flex items-center">
-              <CircleCheck className="w-5 h-5 text-green-500 mr-2" />
-              <p className="text-green-700 font-medium">{successMessage}</p>
-            </div>
-          </div>
-        )}
 
         {error && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">

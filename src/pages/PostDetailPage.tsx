@@ -1,25 +1,59 @@
-import { useQuery } from "@apollo/client/react";
-import { useParams } from "react-router-dom";
+import { useQuery, useMutation } from "@apollo/client/react";
+import { useParams, useNavigate } from "react-router-dom";
 import { GET_POST } from "../graphql/queries";
+import { DELETE_POST } from "../graphql/mutation";
 import { PostPage } from "../types";
 import PostSkeleton from "../components/post/PostSkeleton";
 import ErrorCard from "../components/ErrorCard";
 import PostNotFound from "../components/post/PostNotFound";
 import CommentCard from "../components/CommentCard";
 import Header from "../components/Header";
+import ConfirmDeletePost from "../components/post/ConfirmDeletePost";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function PostDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const { loading, error, data } = useQuery<PostPage>(GET_POST, {
     variables: { id },
   });
+
+  const [deletePost, { loading: deleteLoading }] = useMutation(DELETE_POST, {
+    onCompleted: () => {
+      navigate("/");
+      toast.success("Post deleted successfully.");
+    },
+    onError: (error) => {
+      toast.error(`Failed to delete post`, {
+        description: error.message,
+      });
+      setShowDeleteDialog(false);
+    },
+  });
+
+  const handleDeleteClick = () => {
+    setShowDeleteDialog(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (id) {
+      await deletePost({ variables: { id } });
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteDialog(false);
+  };
+
   const post = data?.post;
   const isPostFound = post && post.id !== null;
 
   return (
     <div className="container max-w-4xl mx-auto px-4 py-8">
-      <Header />
+      <Header id={id} onDeleteClick={handleDeleteClick} />
       {loading && (
         <div className="flex flex-col space-y-6">
           {[...Array(2)].map((_, index) => (
@@ -82,6 +116,14 @@ export default function PostDetailPage() {
         ) : (
           <PostNotFound />
         ))}
+
+      <ConfirmDeletePost
+        postTitle={post?.title || ""}
+        isOpen={showDeleteDialog}
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+        isDeleting={deleteLoading}
+      />
     </div>
   );
 }
