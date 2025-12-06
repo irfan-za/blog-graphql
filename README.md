@@ -21,6 +21,7 @@ This application demonstrates a complete GraphQL implementation with React, feat
 - **GraphQL** - Query language for API
 - **TailwindCss** - Styling
 - **Jest** - unit testing
+- **Sonner** - toast
 
 ## Folder Structure
 

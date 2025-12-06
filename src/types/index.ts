@@ -32,11 +32,11 @@ export interface PostPage {
   post: PostWithComments;
 }
 
-export interface CreatePostInput {
+export interface PostInput {
   title: string;
   body: string;
 }
 
-export interface CreatePostData {
-  createPost: Post;
+export interface PostData {
+  post: Post;
 }

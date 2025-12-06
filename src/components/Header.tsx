@@ -25,7 +25,7 @@ export default function Header({ id, onDeleteClick }: HeaderProps) {
             <Trash2 className="text-white" />
           </button>
           <Link
-            to={`/post/${id}/edit`}
+            to={`/edit/${id}`}
             className="flex items-center bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
           >
             <PenLine className="w-4 h-4 mr-2" />

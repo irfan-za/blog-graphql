@@ -4,6 +4,7 @@ import PostDetailPage from "./pages/PostDetailPage";
 import CreatePostPage from "./pages/CreatePostPage";
 import "./App.css";
 import { Toaster } from "sonner";
+import EditPostPage from "./pages/EditPostPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<PostsListPage />} />
           <Route path="/post/:id" element={<PostDetailPage />} />
+          <Route path="/edit/:id" element={<EditPostPage />} />
           <Route path="/create" element={<CreatePostPage />} />
         </Routes>
       </div>
