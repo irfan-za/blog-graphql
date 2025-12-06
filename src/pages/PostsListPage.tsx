@@ -1,11 +1,12 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { Post, PostsPage } from "../types";
 import { useQuery } from "@apollo/client/react";
 import { GET_POSTS } from "../graphql/queries";
-import PostSkeleton from "../components/PostSkeleton";
+import PostSkeleton from "../components/post/PostSkeleton";
 import ErrorCard from "../components/ErrorCard";
-import PostPagination from "../components/PostPagination";
-import PostCard from "../components/PostCard";
+import PostPagination from "../components/post/PostPagination";
+import PostCard from "../components/post/PostCard";
+import Header from "../components/Header";
 
 export default function PostsListPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -53,18 +54,7 @@ export default function PostsListPage() {
   };
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
-          Blog Posts
-        </h1>
-        <Link
-          to="/create"
-          className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
-        >
-          Create New Post
-        </Link>
-      </div>
-
+      <Header />
       {loading && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {[...Array(8)].map((_, index) => (

@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import { Post } from "../types";
+import { Post } from "../../types";
 import { User } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function PostCard({ post }: { post: Post }) {
   return (

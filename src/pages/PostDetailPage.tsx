@@ -1,12 +1,12 @@
 import { useQuery } from "@apollo/client/react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { GET_POST } from "../graphql/queries";
 import { PostPage } from "../types";
-import PostSkeleton from "../components/PostSkeleton";
+import PostSkeleton from "../components/post/PostSkeleton";
 import ErrorCard from "../components/ErrorCard";
-import PostNotFound from "../components/PostNotFound";
+import PostNotFound from "../components/post/PostNotFound";
 import CommentCard from "../components/CommentCard";
-import { ArrowLeft } from "lucide-react";
+import Header from "../components/Header";
 
 export default function PostDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -19,21 +19,7 @@ export default function PostDetailPage() {
 
   return (
     <div className="container max-w-4xl mx-auto px-4 py-8">
-      <div className="pb-8 flex justify-between">
-        <Link
-          to="/"
-          className="px-4 py-2 inline-flex items-center text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-200"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to posts
-        </Link>
-        <Link
-          to="/create"
-          className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
-        >
-          Create New Post
-        </Link>
-      </div>
+      <Header />
       {loading && (
         <div className="flex flex-col space-y-6">
           {[...Array(2)].map((_, index) => (
