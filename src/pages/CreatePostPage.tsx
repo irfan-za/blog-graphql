@@ -52,8 +52,13 @@ export default function CreatePostPage() {
         },
       });
       if (existingPosts) {
+        // Generate unique ID to prevent duplicate ID conflicts, because the API always return id 101
+        const uniqueId = `temp-${Date.now()}-${Math.random()
+          .toString(36)
+          .substr(2, 9)}`;
         const newPost = {
           ...data.createPost,
+          id: uniqueId,
           user: {
             id: currentUser?.id || "",
             name: currentUser?.name || "",

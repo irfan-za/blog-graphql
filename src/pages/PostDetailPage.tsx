@@ -1,8 +1,8 @@
 import { useQuery, useMutation } from "@apollo/client/react";
 import { useParams, useNavigate } from "react-router-dom";
-import { GET_POST } from "../graphql/queries";
+import { GET_POST, GET_POSTS } from "../graphql/queries";
 import { DELETE_POST } from "../graphql/mutation";
-import { PostPage } from "../types";
+import { PostPage, PostsPage } from "../types";
 import PostSkeleton from "../components/post/PostSkeleton";
 import ErrorCard from "../components/ErrorCard";
 import PostNotFound from "../components/post/PostNotFound";
@@ -22,6 +22,45 @@ export default function PostDetailPage() {
   });
 
   const [deletePost, { loading: deleteLoading }] = useMutation(DELETE_POST, {
+    update(cache, { data }) {
+      if (!data || !id) return;
+
+      const existingPosts = cache.readQuery<PostsPage>({
+        query: GET_POSTS,
+        variables: {
+          options: {
+            paginate: {
+              page: 1,
+              limit: 10,
+            },
+          },
+        },
+      });
+
+      if (existingPosts) {
+        cache.writeQuery({
+          query: GET_POSTS,
+          variables: {
+            options: {
+              paginate: {
+                page: 1,
+                limit: 10,
+              },
+            },
+          },
+          data: {
+            posts: {
+              ...existingPosts.posts,
+              data: existingPosts.posts.data.filter((post) => post.id !== id),
+              meta: {
+                ...existingPosts.posts.meta,
+                totalCount: existingPosts.posts.meta.totalCount - 1,
+              },
+            },
+          },
+        });
+      }
+    },
     onCompleted: () => {
       navigate("/");
       toast.success("Post deleted successfully.");
