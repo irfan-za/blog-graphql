@@ -35,8 +35,20 @@ export interface PostPage {
 export interface PostInput {
   title: string;
   body: string;
+  userId?: string;
 }
 
 export interface PostData {
   post: Post;
+  createPost: Post;
+  updatePost: Post;
+}
+
+export interface UsersPage {
+  users: {
+    data: User[];
+    meta: {
+      totalCount: number;
+    };
+  };
 }

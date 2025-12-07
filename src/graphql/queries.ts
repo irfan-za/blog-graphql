@@ -42,3 +42,18 @@ export const GET_POST = gql`
     }
   }
 `;
+
+export const GET_USERS = gql`
+  query GetUsers($options: PageQueryOptions) {
+    users(options: $options) {
+      data {
+        id
+        name
+        email
+      }
+      meta {
+        totalCount
+      }
+    }
+  }
+`;

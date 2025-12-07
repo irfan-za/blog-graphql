@@ -1,13 +1,17 @@
 import { CircleAlert } from "lucide-react";
-import { PostInput } from "../../types";
+import { PostInput, User } from "../../types";
 
 interface PostFormProps {
   formData: PostInput;
   loading: boolean;
   error?: Error | null;
+  users: User[];
+  usersLoading: boolean;
   onSubmit: (e: React.FormEvent) => void;
   onChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => void;
   onCancel: () => void;
   submitLabel?: string;
@@ -18,6 +22,8 @@ export default function PostForm({
   formData,
   loading,
   error,
+  users,
+  usersLoading,
   onSubmit,
   onChange,
   onCancel,
@@ -38,6 +44,31 @@ export default function PostForm({
       )}
 
       <form onSubmit={onSubmit} className="space-y-6">
+        <div>
+          <label
+            htmlFor="userId"
+            className="block text-sm font-semibold text-gray-700 mb-2"
+          >
+            Select User
+          </label>
+          <select
+            id="userId"
+            name="userId"
+            value={formData.userId || ""}
+            onChange={onChange}
+            required
+            disabled={usersLoading}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-200"
+          >
+            <option value="">Select a user</option>
+            {users.map((user) => (
+              <option key={user.id} value={user.id}>
+                {user.name} ({user.email})
+              </option>
+            ))}
+          </select>
+        </div>
+
         <div>
           <label
             htmlFor="title"
