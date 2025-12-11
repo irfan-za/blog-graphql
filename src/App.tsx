@@ -5,6 +5,7 @@ import CreatePostPage from "./pages/CreatePostPage";
 import "./App.css";
 import { Toaster } from "sonner";
 import EditPostPage from "./pages/EditPostPage";
+import PostListInfinitePage from "./pages/PostListInfinitePage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<PostsListPage />} />
+          <Route path="/infinite-scroll" element={<PostListInfinitePage />} />
           <Route path="/post/:id" element={<PostDetailPage />} />
           <Route path="/edit/:id" element={<EditPostPage />} />
           <Route path="/create" element={<CreatePostPage />} />

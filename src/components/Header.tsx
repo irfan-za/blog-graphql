@@ -1,4 +1,4 @@
-import { ArrowLeft, PenLine, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, Infinity, PenLine, Plus, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface HeaderProps {
@@ -40,6 +40,10 @@ export default function Header({ id, onDeleteClick }: HeaderProps) {
       <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
         Blog Posts
       </h1>
+
+      <Link to="/infinite-scroll">
+        <Infinity className="w-4 h-4" />
+      </Link>
       <Link
         to="/create"
         className="flex items-center bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
